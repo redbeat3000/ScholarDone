@@ -1,10 +1,79 @@
 document.addEventListener('DOMContentLoaded', () => {
     initTheme();
+    initCustomCursor();
+    initNavbarScroll();
     initMobileMenu();
     initScrollEffects();
+    initMagneticButtons();
     initBackToTop();
     highlightActiveLink();
 });
+
+// --- Custom Cursor ---
+function initCustomCursor() {
+    if (window.innerWidth <= 1024) return;
+
+    const dot = document.createElement('div');
+    const outline = document.createElement('div');
+    dot.className = 'cursor-dot';
+    outline.className = 'cursor-outline';
+    document.body.appendChild(dot);
+    document.body.appendChild(outline);
+
+    let mouseX = 0;
+    let mouseY = 0;
+    let outlineX = 0;
+    let outlineY = 0;
+
+    window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        dot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
+    });
+
+    const animateOutline = () => {
+        const easing = 0.15;
+        outlineX += (mouseX - outlineX) * easing;
+        outlineY += (mouseY - outlineY) * easing;
+        outline.style.transform = `translate(${outlineX}px, ${outlineY}px) translate(-50%, -50%)`;
+        requestAnimationFrame(animateOutline);
+    };
+    animateOutline();
+
+    const hoverElements = document.querySelectorAll('a, button, .expert-card, .trust-item, .accordion-header');
+    hoverElements.forEach(el => {
+        el.addEventListener('mouseenter', () => document.body.classList.add('cursor-active'));
+        el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-active'));
+    });
+}
+
+// --- Magnetic Buttons ---
+function initMagneticButtons() {
+    const btns = document.querySelectorAll('.btn-primary, .btn-ghost, .theme-toggle');
+    btns.forEach(btn => {
+        btn.addEventListener('mousemove', (e) => {
+            const rect = btn.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px) scale(1.05)`;
+        });
+        btn.addEventListener('mouseleave', () => {
+            btn.style.transform = '';
+        });
+    });
+}
+
+// --- Navbar Scroll ---
+function initNavbarScroll() {
+    const navbar = document.querySelector('.navbar');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+}
 
 // --- Theme Management ---
 function initTheme() {
@@ -17,9 +86,17 @@ function initTheme() {
 
     themeToggle.addEventListener('click', () => {
         const newTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        
+        // Add transition class to body
+        document.body.style.transition = 'background-color 0.5s ease, color 0.5s ease';
+        
         document.documentElement.setAttribute('data-theme', newTheme);
         localStorage.setItem('theme', newTheme);
         updateThemeIcon(newTheme);
+        
+        setTimeout(() => {
+            document.body.style.transition = '';
+        }, 500);
     });
 }
 
@@ -36,8 +113,9 @@ function initMobileMenu() {
     if (!menuBtn || !navLinks) return;
 
     menuBtn.addEventListener('click', () => {
-        navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
         navLinks.classList.toggle('mobile-active');
+        const icon = menuBtn.querySelector('i');
+        icon.className = navLinks.classList.contains('mobile-active') ? 'ri-close-line' : 'ri-menu-line';
     });
 }
 
@@ -59,21 +137,29 @@ function initScrollEffects() {
 }
 
 function animateCounter(el) {
+    if (el.dataset.animated) return;
+    el.dataset.animated = "true";
+    
     const target = parseInt(el.getAttribute('data-target'));
     let count = 0;
-    const speed = 2000 / target;
+    const duration = 2000;
+    const startTime = performance.now();
     
-    const updateCount = () => {
-        const increment = target / 100;
-        if (count < target) {
-            count += increment;
-            el.innerText = Math.ceil(count).toLocaleString() + (el.getAttribute('data-suffix') || '');
-            setTimeout(updateCount, 20);
+    const updateCount = (currentTime) => {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const easeOutQuad = progress * (2 - progress);
+        
+        count = Math.floor(easeOutQuad * target);
+        el.innerText = count.toLocaleString() + (el.getAttribute('data-suffix') || '');
+        
+        if (progress < 1) {
+            requestAnimationFrame(updateCount);
         } else {
             el.innerText = target.toLocaleString() + (el.getAttribute('data-suffix') || '');
         }
     };
-    updateCount();
+    requestAnimationFrame(updateCount);
 }
 
 // --- Back to Top ---
@@ -83,11 +169,20 @@ function initBackToTop() {
     btn.innerHTML = '<i class="ri-arrow-up-line"></i>';
     document.body.appendChild(btn);
 
+    // Style the back to top button here or in CSS
+    Object.assign(btn.style, {
+        position: 'fixed', bottom: '30px', right: '30px',
+        width: '50px', height: '50px', borderRadius: '50%',
+        background: 'var(--color-amber)', color: 'var(--color-black)',
+        border: 'none', display: 'none', alignItems: 'center', justifyContent: 'center',
+        zIndex: '1000', cursor: 'none', transition: 'all 0.3s ease'
+    });
+
     window.addEventListener('scroll', () => {
         if (window.scrollY > 400) {
-            btn.classList.add('visible');
+            btn.style.display = 'flex';
         } else {
-            btn.classList.remove('visible');
+            btn.style.display = 'none';
         }
     });
 
@@ -114,40 +209,29 @@ function showToast(message, type = 'info') {
         container = document.createElement('div');
         container.className = 'toast-container';
         document.body.appendChild(container);
+        
+        Object.assign(container.style, {
+            position: 'fixed', top: '30px', right: '30px',
+            zIndex: '10000', display: 'flex', flexDirection: 'column', gap: '10px'
+        });
     }
 
     const toast = document.createElement('div');
     toast.className = `toast toast-${type}`;
     toast.innerHTML = `<span>${message}</span>`;
+    
+    Object.assign(toast.style, {
+        padding: '1rem 2rem', background: 'var(--card-bg)',
+        backdropFilter: 'blur(10px)', border: '1px solid var(--border-color)',
+        borderRadius: '1rem', color: 'var(--text-primary)',
+        animation: 'slideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1)'
+    });
+
     container.appendChild(toast);
 
     setTimeout(() => {
         toast.style.opacity = '0';
-        setTimeout(() => toast.remove(), 300);
+        toast.style.transform = 'translateX(100px)';
+        setTimeout(() => toast.remove(), 500);
     }, 4000);
 }
-
-// --- Expert Mock Data ---
-const MOCK_EXPERTS = [
-    { id: 1, name: "Dr. James K.", avatar: "JK", special: "Dissertations & Thesis", rating: 4.9, completed: 842, price: 45, subjects: ["History", "Philosophy", "Political Science"] },
-    { id: 2, name: "Sarah M.", avatar: "SM", special: "Python & Data Science", rating: 5.0, completed: 320, price: 60, subjects: ["Coding", "Statistics", "AI"] },
-    { id: 3, name: "Prof. Alan W.", avatar: "AW", special: "Complex Engineering", rating: 4.8, completed: 1205, price: 80, subjects: ["Mechanical", "Physics", "Math"] },
-    { id: 4, name: "Elena R.", avatar: "ER", special: "Business & Marketing", rating: 4.7, completed: 560, price: 30, subjects: ["Business Plans", "Economics", "Case Studies"] },
-    { id: 5, name: "David L.", avatar: "DL", special: "Law & Ethics", rating: 4.9, completed: 410, price: 50, subjects: ["Law", "Criminal Justice", "Ethics"] },
-    { id: 6, name: "Dr. Emily B.", avatar: "EB", special: "Medical & Nursing", rating: 4.9, completed: 930, price: 55, subjects: ["Nursing", "Biology", "Pharmacology"] },
-    { id: 7, name: "Michael T.", avatar: "MT", special: "Fullstack Web Dev", rating: 5.0, completed: 215, price: 70, subjects: ["React", "Node.js", "Database"] },
-    { id: 8, name: "Jessica H.", avatar: "JH", special: "English & Literature", rating: 4.8, completed: 1450, price: 25, subjects: ["Creative Writing", "Literature", "Essays"] },
-    { id: 9, name: "Dr. Robert P.", avatar: "RP", special: "Advanced Mathematics", rating: 4.9, completed: 890, price: 65, subjects: ["Calculus", "Linear Algebra", "Calculus"] },
-    { id: 10, name: "Sophia G.", avatar: "SG", special: "Psychology & Sociology", rating: 4.7, completed: 670, price: 35, subjects: ["Psychology", "Social Work", "Sociology"] },
-    { id: 11, name: "Chris P.", avatar: "CP", special: "Computer Science", rating: 4.8, completed: 480, price: 50, subjects: ["Algorithms", "C++", "Java"] },
-    { id: 12, name: "Lisa W.", avatar: "LW", special: "Accounting & Finance", rating: 4.9, completed: 340, price: 45, subjects: ["Accounting", "Corporate Finance", "Tax"] }
-];
-
-// --- Task Mock Data ---
-const MOCK_TASKS = [
-    { id: "SD-2847", title: "ML Model for Predicting Churn", subject: "Coding & ML", budget: 250, deadline: "2026-05-15", status: "In Progress" },
-    { id: "SD-1932", title: "The Impact of Roman Law on Modern Systems", subject: "History/Law", budget: 120, deadline: "2026-05-12", status: "Expert Assigned" },
-    { id: "SD-8492", title: "Financial Analysis of Tesla Q1", subject: "Accounting", budget: 80, deadline: "2026-05-10", status: "Under Review" },
-    { id: "SD-3301", title: "Vector Calculus Problem Set", subject: "Mathematics", budget: 60, deadline: "2026-05-11", status: "Pending Match" },
-    { id: "SD-7721", title: "Shakespearean Sonnets Analysis", subject: "Literature", budget: 45, deadline: "2026-05-09", status: "Completed" }
-];
