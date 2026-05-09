@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | ScholarDone</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+        .task-table-container {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+        th, td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        th {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+        }
+        .status-badge {
+            padding: 0.25rem 0.6rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+        .status-pending { background: rgba(245, 166, 35, 0.1); color: var(--color-amber); }
+        .status-assigned { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
+        .status-progress { background: rgba(20, 184, 166, 0.1); color: #14b8a6; }
+        .status-completed { background: rgba(16, 185, 129, 0.1); color: #10b981; }
+        
+        .auth-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-primary);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-md);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Auth Overlay -->
+    <div id="authOverlay" class="auth-overlay" style="display: none;">
+        <div class="wizard-container" style="width: 100%; max-width: 400px;">
+            <div class="text-center" style="margin-bottom: 2rem;">
+                <a href="index.html" class="logo">Scholar<span>Done</span></a>
+                <h2 style="margin-top: 1rem;">Welcome Back</h2>
+                <p class="text-secondary">Sign in to track your tasks</p>
+            </div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" class="form-control" id="loginEmail" required placeholder="name@example.com">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" class="form-control" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Sign In</button>
+            </form>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="index.html" class="logo">Scholar<span>Done</span></a>
+            <div class="nav-links">
+                <a href="how-it-works.html">How It Works</a>
+                <a href="browse-experts.html">Experts</a>
+                <a href="post-task.html">Post a Task</a>
+                <a href="dashboard.html">Dashboard</a>
+            </div>
+            <div class="nav-actions">
+                <span id="userName" class="text-secondary" style="font-size: 0.9rem;"></span>
+                <button class="theme-toggle"><i class="ri-sun-line"></i></button>
+                <button class="btn btn-ghost" onclick="logout()" style="padding: 0.4rem 0.8rem;">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container section-padding">
+        <div id="successBanner" style="display: none; background: #10b981; color: white; padding: 1rem; border-radius: var(--radius-md); margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center;">
+            <div><i class="ri-checkbox-circle-line"></i> Task posted successfully! Expert matching in progress...</div>
+            <button onclick="this.parentElement.style.display='none'" style="background: none; border: none; color: white; cursor: pointer;"><i class="ri-close-line"></i></button>
+        </div>
+
+        <div style="margin-bottom: var(--spacing-lg);">
+            <h1>Dashboard</h1>
+            <p class="text-secondary">Track and manage your academic work.</p>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="stat-card">
+                <div class="text-secondary" style="font-size: 0.8rem;">Total Tasks</div>
+                <div class="stat-val">5</div>
+            </div>
+            <div class="stat-card">
+                <div class="text-secondary" style="font-size: 0.8rem;">In Progress</div>
+                <div class="stat-val">3</div>
+            </div>
+            <div class="stat-card">
+                <div class="text-secondary" style="font-size: 0.8rem;">Completed</div>
+                <div class="stat-val">1</div>
+            </div>
+            <div class="stat-card">
+                <div class="text-secondary" style="font-size: 0.8rem;">Spent</div>
+                <div class="stat-val" style="color: var(--text-primary);">$555</div>
+            </div>
+        </div>
+
+        <div class="task-table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Subject</th>
+                        <th>Title</th>
+                        <th>Deadline</th>
+                        <th>Budget</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="taskTableBody">
+                    <!-- Tasks injected here -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+    <script>
+        const authOverlay = document.getElementById('authOverlay');
+        const loginForm = document.getElementById('loginForm');
+        const taskTableBody = document.getElementById('taskTableBody');
+
+        // Check Login
+        function checkAuth() {
+            const user = localStorage.getItem('sd_user');
+            if (!user) {
+                authOverlay.style.display = 'flex';
+            } else {
+                authOverlay.style.display = 'none';
+                document.getElementById('userName').innerText = JSON.parse(user).email.split('@')[0];
+                renderTasks();
+            }
+        }
+
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            localStorage.setItem('sd_user', JSON.stringify({ email }));
+            checkAuth();
+            showToast('Welcome back!', 'success');
+        });
+
+        function logout() {
+            localStorage.removeItem('sd_user');
+            location.reload();
+        }
+
+        function getStatusClass(status) {
+            const s = status.toLowerCase();
+            if (s.includes('pending')) return 'status-pending';
+            if (s.includes('assigned')) return 'status-assigned';
+            if (s.includes('progress')) return 'status-progress';
+            if (s.includes('completed')) return 'status-completed';
+            return 'status-pending';
+        }
+
+        function renderTasks() {
+            taskTableBody.innerHTML = MOCK_TASKS.map(task => `
+                <tr>
+                    <td><code style="font-size: 0.8rem;">${task.id}</code></td>
+                    <td><span class="badge badge-subject">${task.subject}</span></td>
+                    <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${task.title}</td>
+                    <td style="font-size: 0.8rem;">${new Date(task.deadline).toLocaleDateString()}</td>
+                    <td style="font-weight: 700;">$${task.budget}</td>
+                    <td><span class="status-badge ${getStatusClass(task.status)}">${task.status}</span></td>
+                    <td>
+                        <button class="btn btn-ghost" style="padding: 0.3rem 0.6rem; font-size: 0.8rem;" onclick="showToast('Loading task details...', 'info')">View</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Check for success param
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('submitted') === 'true') {
+            document.getElementById('successBanner').style.display = 'flex';
+        }
+
+        checkAuth();
+    </script>
+</body>
+</html>

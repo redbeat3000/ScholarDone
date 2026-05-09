@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse Experts | ScholarDone</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .browse-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--spacing-lg);
+        }
+        @media (min-width: 1024px) {
+            .browse-layout { grid-template-columns: 280px 1fr; }
+        }
+        .filter-sidebar {
+            background: var(--card-bg);
+            padding: var(--spacing-md);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            height: fit-content;
+        }
+        .expert-avatar {
+            width: 60px;
+            height: 60px;
+            background: var(--color-amber);
+            color: var(--color-black);
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.5rem;
+            position: relative;
+        }
+        .status-dot {
+            width: 14px;
+            height: 14px;
+            background: #10b981;
+            border: 2px solid var(--card-bg);
+            border-radius: var(--radius-full);
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+        }
+        .search-header {
+            margin-bottom: var(--spacing-lg);
+            background: var(--card-bg);
+            padding: var(--spacing-md);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="index.html" class="logo">Scholar<span>Done</span></a>
+            <div class="nav-links">
+                <a href="how-it-works.html">How It Works</a>
+                <a href="browse-experts.html">Experts</a>
+                <a href="post-task.html">Post a Task</a>
+                <a href="dashboard.html">Sign In</a>
+            </div>
+            <div class="nav-actions">
+                <button class="theme-toggle"><i class="ri-sun-line"></i></button>
+                <button class="mobile-menu-btn"><i class="ri-menu-line"></i></button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container section-padding">
+        <div class="search-header">
+            <div class="grid" style="grid-template-columns: 1fr auto; gap: var(--spacing-sm);">
+                <div style="position: relative;">
+                    <i class="ri-search-line" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-secondary);"></i>
+                    <input type="text" class="form-control" placeholder="Search experts by name, subject, or skill..." style="padding-left: 3rem;" id="expertSearch">
+                </div>
+                <select class="form-control" style="width: auto;" id="sortSelect">
+                    <option value="rating">Top Rated</option>
+                    <option value="completed">Most Orders</option>
+                    <option value="price-low">Lowest Price</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="browse-layout">
+            <!-- Sidebar Filters -->
+            <aside class="filter-sidebar">
+                <h4 style="margin-bottom: 1rem;">Filters</h4>
+                <div class="form-group">
+                    <label style="font-size: 0.8rem;">Subject Area</label>
+                    <select class="form-control" id="subjectFilter">
+                        <option value="">All Subjects</option>
+                        <option value="essays">Essays</option>
+                        <option value="coding">Coding</option>
+                        <option value="math">Mathematics</option>
+                        <option value="business">Business</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label style="font-size: 0.8rem;">Expert Rating</label>
+                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <label style="font-weight: 400; font-size: 0.9rem;"><input type="radio" name="rating" value="4.5"> 4.5★ & Above</label>
+                        <label style="font-weight: 400; font-size: 0.9rem;"><input type="radio" name="rating" value="4.0"> 4.0★ & Above</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label style="display: flex; align-items: center; justify-content: space-between; font-weight: 400;">
+                        Available Now
+                        <input type="checkbox" checked>
+                    </label>
+                </div>
+                <button class="btn btn-ghost" style="width: 100%; margin-top: 1rem;" onclick="resetFilters()">Reset Filters</button>
+            </aside>
+
+            <!-- Experts Grid -->
+            <div class="expert-grid" id="expertGrid">
+                <!-- Experts will be injected here -->
+            </div>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+    <script>
+        const grid = document.getElementById('expertGrid');
+        const searchInput = document.getElementById('expertSearch');
+        const sortSelect = document.getElementById('sortSelect');
+        const subjectFilter = document.getElementById('subjectFilter');
+
+        function renderExperts(experts) {
+            grid.innerHTML = experts.map(exp => `
+                <div class="expert-card reveal active">
+                    <div class="flex justify-between" style="margin-bottom: 1rem;">
+                        <div class="expert-avatar">
+                            ${exp.avatar}
+                            <div class="status-dot"></div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-amber" style="font-weight: 700;">${exp.rating} ★</div>
+                            <div class="text-secondary" style="font-size: 0.8rem;">${exp.completed} tasks</div>
+                        </div>
+                    </div>
+                    <h4>${exp.name}</h4>
+                    <p class="text-secondary" style="font-size: 0.9rem; margin-bottom: 1rem;">${exp.special}</p>
+                    <div class="flex" style="flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem;">
+                        ${exp.subjects.map(s => `<span class="badge badge-subject">${s}</span>`).join('')}
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <span style="font-size: 0.8rem;" class="text-secondary">Starting at</span>
+                            <div style="font-weight: 800;">$${exp.price}/pg</div>
+                        </div>
+                        <div class="flex gap-1">
+                            <a href="post-task.html?expert=${exp.id}" class="btn btn-primary" style="padding: 0.5rem 1rem;">Hire</a>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterAndSort() {
+            let filtered = [...MOCK_EXPERTS];
+            const search = searchInput.value.toLowerCase();
+            const subject = subjectFilter.value;
+            
+            if (search) {
+                filtered = filtered.filter(e => 
+                    e.name.toLowerCase().includes(search) || 
+                    e.special.toLowerCase().includes(search) ||
+                    e.subjects.some(s => s.toLowerCase().includes(search))
+                );
+            }
+
+            if (subject) {
+                filtered = filtered.filter(e => e.subjects.some(s => s.toLowerCase().includes(subject)));
+            }
+
+            const sort = sortSelect.value;
+            if (sort === 'completed') filtered.sort((a, b) => b.completed - a.completed);
+            if (sort === 'rating') filtered.sort((a, b) => b.rating - a.rating);
+            if (sort === 'price-low') filtered.sort((a, b) => a.price - b.price);
+
+            renderExperts(filtered);
+        }
+
+        searchInput.addEventListener('input', filterAndSort);
+        sortSelect.addEventListener('change', filterAndSort);
+        subjectFilter.addEventListener('change', filterAndSort);
+
+        function resetFilters() {
+            searchInput.value = '';
+            subjectFilter.value = '';
+            sortSelect.value = 'rating';
+            renderExperts(MOCK_EXPERTS);
+        }
+
+        // Initial Render
+        renderExperts(MOCK_EXPERTS);
+    </script>
+</body>
+</html>

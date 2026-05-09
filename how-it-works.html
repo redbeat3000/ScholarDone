@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How It Works | ScholarDone</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .process-step {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--spacing-lg);
+            align-items: center;
+            margin-bottom: var(--spacing-xl);
+        }
+        @media (min-width: 768px) {
+            .process-step { grid-template-columns: 1fr 1fr; }
+            .process-step:nth-child(even) .process-content { order: 2; }
+            .process-step:nth-child(even) .process-image { order: 1; }
+        }
+        .process-image {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            aspect-ratio: 16/9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border-color);
+        }
+        .step-num {
+            font-size: 3rem;
+            font-family: var(--font-heading);
+            color: var(--color-amber);
+            opacity: 0.3;
+            margin-bottom: -1.5rem;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="index.html" class="logo">Scholar<span>Done</span></a>
+            <div class="nav-links">
+                <a href="how-it-works.html">How It Works</a>
+                <a href="browse-experts.html">Experts</a>
+                <a href="post-task.html">Post a Task</a>
+                <a href="dashboard.html">Sign In</a>
+            </div>
+            <div class="nav-actions">
+                <button class="theme-toggle"><i class="ri-sun-line"></i></button>
+                <button class="mobile-menu-btn"><i class="ri-menu-line"></i></button>
+            </div>
+        </div>
+    </nav>
+
+    <header class="section-padding bg-secondary text-center">
+        <div class="container">
+            <h1 class="reveal">Built for Students, Delivered by Pros</h1>
+            <p class="text-secondary" style="max-width: 700px; margin: 1rem auto;">ScholarDone is the easiest way to outsource your academic heavy lifting. Here is how we ensure quality and integrity.</p>
+        </div>
+    </header>
+
+    <main class="container section-padding">
+        <div class="process-step reveal">
+            <div class="process-content">
+                <div class="step-num">01</div>
+                <h2>Post Your Requirements</h2>
+                <p class="text-secondary">Start by filling out our smart task form. Upload your rubric, syllabus, and any specific instructions from your professor. The more detail you provide, the better the final result.</p>
+                <ul class="text-secondary" style="margin-top: 1rem; list-style: inside disc;">
+                    <li>Select subject & task type</li>
+                    <li>Set a firm deadline</li>
+                    <li>Define your budget</li>
+                </ul>
+            </div>
+            <div class="process-image">
+                <i class="ri-file-edit-line" style="font-size: 5rem; color: var(--color-amber);"></i>
+            </div>
+        </div>
+
+        <div class="process-step reveal">
+            <div class="process-content">
+                <div class="step-num">02</div>
+                <h2>Expert Matching</h2>
+                <p class="text-secondary">Our system identifies the top 3 experts in our network who specialize in your specific topic. We look at their past performance, subject expertise, and current availability.</p>
+                <p class="text-secondary" style="margin-top: 1rem;">Once matched, you'll receive a notification. You can message your expert to clarify details or check on progress at any time.</p>
+            </div>
+            <div class="process-image">
+                <i class="ri-user-search-line" style="font-size: 5rem; color: var(--color-amber);"></i>
+            </div>
+        </div>
+
+        <div class="process-step reveal">
+            <div class="process-content">
+                <div class="step-num">03</div>
+                <h2>Quality Assurance</h2>
+                <p class="text-secondary">Before the work reaches you, it goes through a secondary review. We check for plagiarism, adherence to instructions, and formatting accuracy (APA, MLA, etc.).</p>
+                <p class="text-secondary" style="margin-top: 1rem;">If something isn't right, the expert must fix it before the task is marked as "Under Review" for you.</p>
+            </div>
+            <div class="process-image">
+                <i class="ri-shield-check-line" style="font-size: 5rem; color: var(--color-amber);"></i>
+            </div>
+        </div>
+
+        <div class="process-step reveal">
+            <div class="process-content">
+                <div class="step-num">04</div>
+                <h2>Final Approval</h2>
+                <p class="text-secondary">Review the final document in your dashboard. If you need tweaks, just click "Request Revision" — it's free and unlimited. Once you're happy, approve the task to release funds and download your file.</p>
+                <div style="margin-top: 2rem;">
+                    <a href="post-task.html" class="btn btn-primary">Ready to Start? Post a Task</a>
+                </div>
+            </div>
+            <div class="process-image">
+                <i class="ri-download-cloud-2-line" style="font-size: 5rem; color: var(--color-amber);"></i>
+            </div>
+        </div>
+    </main>
+
+    <section class="section-padding bg-secondary text-center">
+        <div class="container">
+            <h2 class="reveal">Safe. Secure. Anonymous.</h2>
+            <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--spacing-lg); margin-top: var(--spacing-xl);">
+                <div>
+                    <i class="ri-lock-2-line" style="font-size: 2.5rem; color: var(--color-amber);"></i>
+                    <h4>Escrow Payments</h4>
+                    <p class="text-secondary" style="font-size: 0.9rem;">Funds are held securely until you approve the work.</p>
+                </div>
+                <div>
+                    <i class="ri-spy-line" style="font-size: 2.5rem; color: var(--color-amber);"></i>
+                    <h4>Full Anonymity</h4>
+                    <p class="text-secondary" style="font-size: 0.9rem;">Your identity is never shared with experts or third parties.</p>
+                </div>
+                <div>
+                    <i class="ri-customer-service-2-line" style="font-size: 2.5rem; color: var(--color-amber);"></i>
+                    <h4>24/7 Support</h4>
+                    <p class="text-secondary" style="font-size: 0.9rem;">Our dispute team is available around the clock.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container footer-bottom">
+            <p class="disclaimer">© 2026 ScholarDone. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

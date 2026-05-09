@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScholarDone | Post It. Pay It. Done.</title>
+    <meta name="description" content="Connect with verified academic professionals who deliver quality work on time. Post essays, coding projects, math assignments and more.">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="ScholarDone | Your Assignments. Handled.">
+    <meta property="og:description" content="The premier marketplace for academic assistance.">
+    <meta property="og:type" content="website">
+    
+    <!-- Fonts & Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="index.html" class="logo">Scholar<span>Done</span></a>
+            
+            <div class="nav-links">
+                <a href="how-it-works.html">How It Works</a>
+                <a href="browse-experts.html">Experts</a>
+                <a href="post-task.html">Post a Task</a>
+                <a href="dashboard.html">Sign In</a>
+            </div>
+
+            <div class="nav-actions">
+                <button class="theme-toggle" aria-label="Toggle Theme">
+                    <i class="ri-sun-line"></i>
+                </button>
+                <a href="post-task.html" class="btn btn-primary">Get Started Free</a>
+                <button class="mobile-menu-btn" aria-label="Open Menu">
+                    <i class="ri-menu-line"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-grid">
+                <div class="hero-content">
+                    <h1>Your Assignments. Handled.</h1>
+                    <p>Connect with verified academic professionals who deliver quality work — on time, every time. No stress, just results.</p>
+                    <div class="hero-btns">
+                        <a href="post-task.html" class="btn btn-primary">Post a Task</a>
+                        <a href="browse-experts.html" class="btn btn-ghost">Browse Experts</a>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="floating-card">
+                        <span class="badge badge-subject">Coding Project</span>
+                        <h3>Build a React Dashboard</h3>
+                        <p class="text-amber" style="margin-top: 0.5rem; font-weight: 700;">$250.00</p>
+                        <div class="badge badge-status">
+                            <i class="ri-checkbox-circle-line"></i> Expert Found ✓
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Bar -->
+    <section class="section-padding bg-secondary">
+        <div class="container">
+            <div class="flex items-center justify-between" style="flex-wrap: wrap; gap: var(--spacing-md);">
+                <div class="trust-item">
+                    <span class="stat-val reveal counter" data-target="10000" data-suffix="+">0</span>
+                    <p class="text-secondary">Tasks Completed</p>
+                </div>
+                <div class="trust-item">
+                    <span class="stat-val reveal counter" data-target="500" data-suffix="+">0</span>
+                    <p class="text-secondary">Verified Experts</p>
+                </div>
+                <div class="trust-item">
+                    <span class="stat-val reveal counter" data-target="12" data-suffix="hrs">0</span>
+                    <p class="text-secondary">Avg. Delivery</p>
+                </div>
+                <div class="trust-item">
+                    <span class="stat-val reveal" style="color: #10b981;">100%</span>
+                    <p class="text-secondary">Money-Back Guarantee</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="section-padding" id="how-it-works">
+        <div class="container">
+            <div class="text-center" style="margin-bottom: var(--spacing-xl);">
+                <h2 class="reveal">How It Works</h2>
+                <p class="text-secondary">Get your academic work done in 4 simple steps.</p>
+            </div>
+
+            <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--spacing-md);">
+                <div class="expert-card reveal">
+                    <div class="text-amber" style="font-size: 2rem; margin-bottom: 1rem;">01</div>
+                    <h4>Post Your Task</h4>
+                    <p class="text-secondary">Describe what you need, set a deadline, and name your budget.</p>
+                </div>
+                <div class="expert-card reveal">
+                    <div class="text-amber" style="font-size: 2rem; margin-bottom: 1rem;">02</div>
+                    <h4>Get Matched</h4>
+                    <p class="text-secondary">We connect you to a verified expert specifically vetted for your subject.</p>
+                </div>
+                <div class="expert-card reveal">
+                    <div class="text-amber" style="font-size: 2rem; margin-bottom: 1rem;">03</div>
+                    <h4>Review the Work</h4>
+                    <p class="text-secondary">Request revisions until you're 100% satisfied with the quality.</p>
+                </div>
+                <div class="expert-card reveal">
+                    <div class="text-amber" style="font-size: 2rem; margin-bottom: 1rem;">04</div>
+                    <h4>Download & Submit</h4>
+                    <p class="text-secondary">Secure delivery straight to your inbox, ready for submission.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories -->
+    <section class="section-padding bg-secondary">
+        <div class="container">
+            <div class="text-center" style="margin-bottom: var(--spacing-xl);">
+                <h2 class="reveal">What Can We Help With?</h2>
+            </div>
+            <div class="grid" style="grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: var(--spacing-sm);">
+                <a href="post-task.html?category=essays" class="btn btn-ghost reveal">Essay Writing</a>
+                <a href="post-task.html?category=research" class="btn btn-ghost reveal">Research Papers</a>
+                <a href="post-task.html?category=coding" class="btn btn-ghost reveal">Coding & Programming</a>
+                <a href="post-task.html?category=math" class="btn btn-ghost reveal">Math & Statistics</a>
+                <a href="post-task.html?category=science" class="btn btn-ghost reveal">Science Reports</a>
+                <a href="post-task.html?category=business" class="btn btn-ghost reveal">Case Studies</a>
+                <a href="post-task.html?category=dissertations" class="btn btn-ghost reveal">Dissertations</a>
+                <a href="post-task.html?category=presentations" class="btn btn-ghost reveal">Presentations</a>
+                <a href="post-task.html?category=exams" class="btn btn-ghost reveal">Online Exams</a>
+                <a href="post-task.html?category=discussions" class="btn btn-ghost reveal">Discussion Posts</a>
+                <a href="post-task.html?category=literature" class="btn btn-ghost reveal">Literature Reviews</a>
+                <a href="post-task.html?category=business-plans" class="btn btn-ghost reveal">Business Plans</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="section-padding">
+        <div class="container">
+            <div class="text-center" style="margin-bottom: var(--spacing-xl);">
+                <h2 class="reveal">Transparent Pricing</h2>
+            </div>
+            <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--spacing-lg);">
+                <div class="expert-card reveal">
+                    <h3>Basic</h3>
+                    <p class="text-secondary">Simple essays, short tasks</p>
+                    <div style="font-size: 2rem; margin: var(--spacing-md) 0;">From <span class="text-amber">$15</span></div>
+                    <ul class="text-secondary" style="margin-bottom: var(--spacing-md);">
+                        <li>✓ 250 words per page</li>
+                        <li>✓ Standard Turnaround</li>
+                        <li>✓ Unlimited Revisions</li>
+                    </ul>
+                    <a href="post-task.html" class="btn btn-primary" style="width: 100%;">Post a Task</a>
+                </div>
+                <div class="expert-card reveal" style="border-color: var(--color-amber);">
+                    <h3>Standard</h3>
+                    <p class="text-secondary">Research papers, coding projects</p>
+                    <div style="font-size: 2rem; margin: var(--spacing-md) 0;">From <span class="text-amber">$40</span></div>
+                    <ul class="text-secondary" style="margin-bottom: var(--spacing-md);">
+                        <li>✓ Specialized Experts</li>
+                        <li>✓ Priority Matching</li>
+                        <li>✓ Plagiarism Report</li>
+                    </ul>
+                    <a href="post-task.html" class="btn btn-primary" style="width: 100%;">Post a Task</a>
+                </div>
+                <div class="expert-card reveal">
+                    <h3>Premium</h3>
+                    <p class="text-secondary">Dissertations, complex projects</p>
+                    <div style="font-size: 2rem; margin: var(--spacing-md) 0;">From <span class="text-amber">$100</span></div>
+                    <ul class="text-secondary" style="margin-bottom: var(--spacing-md);">
+                        <li>✓ PhD Level Experts</li>
+                        <li>✓ VIP Support</li>
+                        <li>✓ 1-on-1 Consultation</li>
+                    </ul>
+                    <a href="post-task.html" class="btn btn-primary" style="width: 100%;">Post a Task</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section-padding bg-secondary">
+        <div class="container">
+            <div class="text-center" style="margin-bottom: var(--spacing-xl);">
+                <h2 class="reveal">Common Questions</h2>
+            </div>
+            <div class="wizard-container reveal" style="max-width: 700px;">
+                <div class="accordion-item">
+                    <button class="accordion-header">Is this service anonymous? <i class="ri-add-line"></i></button>
+                    <div class="accordion-content"><p class="text-secondary">Yes. We prioritize student privacy. Experts never see your real name or institutional details unless you choose to share them.</p></div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-header">How do I pay? <i class="ri-add-line"></i></button>
+                    <div class="accordion-content"><p class="text-secondary">We accept all major credit cards, PayPal, and Apple Pay. Your payment is held in escrow and only released to the expert once you approve the final work.</p></div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-header">What if I'm not happy with the work? <i class="ri-add-line"></i></button>
+                    <div class="accordion-content"><p class="text-secondary">We offer unlimited revisions. If the work still doesn't meet the rubric, our dispute team will review and issue a refund if necessary.</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <a href="index.html" class="logo">Scholar<span>Done</span></a>
+                    <p class="text-secondary" style="margin-top: 1rem;">Post It. Pay It. Done.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Students</h4>
+                    <ul>
+                        <li><a href="post-task.html">Post a Task</a></li>
+                        <li><a href="browse-experts.html">Find an Expert</a></li>
+                        <li><a href="how-it-works.html">How It Works</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Experts Center</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Honor Code</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="social-links">
+                    <a href="#"><i class="ri-twitter-fill"></i></a>
+                    <a href="#"><i class="ri-instagram-fill"></i></a>
+                    <a href="#"><i class="ri-linkedin-box-fill"></i></a>
+                </div>
+                <p class="disclaimer">ScholarDone connects students with independent academic professionals. Use responsibly and in accordance with your institution's policies.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+    <script>
+        // Simple Accordion Logic
+        document.querySelectorAll('.accordion-header').forEach(header => {
+            header.addEventListener('click', () => {
+                header.parentElement.classList.toggle('active');
+                const icon = header.querySelector('i');
+                icon.className = header.parentElement.classList.contains('active') ? 'ri-subtract-line' : 'ri-add-line';
+            });
+        });
+    </script>
+</body>
+</html>
